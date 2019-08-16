@@ -50,32 +50,45 @@ def get_doc(data):
         doc_info.append(temp)
     return doc_info
 
+def count_tf(d_info, freq_list):
+    tf_scores = []
+    for t in freq_list:
+        id = t['doc_id']
+        for k in t['freq_dict']:
+            temp = {'doc_id' : id, 'key': k, 'TF_score' : t['freq_dict'][k]/d_info[id - 1]['doc_length']}
+            tf_scores.append(temp)
+    return tf_scores
 
+def count_idf(d_info, freq_list):
+    idf = []
+    count = 0
+    for d in freq_list:
+        count += 1
+        for k in d['freq_dict'].keys():
+            count = sum([k in t['freq_dict'] for t in freq_list])
+            temp = {'doc_id' : count, 'IDF_score' : math.log(len(d_info)/count), 'key' : k}
+            idf.append(temp)
+    return idf
+
+def compute_tf_idf(tf, idf):
+    tfidf_scores = []
+    for j in idf:
+        for i in tf:
+            if j['key'] == i['key'] and j['doc_id'] == i['doc_id']:
+                temp = {'doc_id' : j['doc_id'], 'TF*IDF' : j['IDF_score'] * i['TF_score'], 'key': i['key']}
+                tfidf_scores.append(temp)
+    return(tfidf_scores)
 
 #for i in text_data:
     #clean_text = sent_tokenize(i)
 text_sents = [preprocess(s) for s in text_data]
 doc_info = get_doc(text_sents)
 freq_lis = frequency(text_sents)
-print(freq_lis)
-      
-   
+tf = count_tf(doc_info, freq_lis)
+idf = count_idf(doc_info, freq_lis)
+tf_idf = compute_tf_idf(tf, idf)
 
-
-
-'''DF = {}
-
-text_data = preprocess(list(text_data))
-
-for i in range(len(text_data)):
-    sentences = text_data[i]
-    #words.append(re.split(r' *[\.\?!][\'"\)\]]* *', sentences))
-    for word in sentences.split():
-        try:
-            DF[word].add(i)
-        except:
-            DF[word] = {i}
-            tf_idf = {}'''
+print(tf_idf)
 
 
 
