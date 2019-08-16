@@ -5,6 +5,8 @@ import numpy as np
 import nltk
 from nltk.tokenize import word_tokenize, sent_tokenize
 import math
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 data = pd.read_csv('try.csv')
 text_data = data['text']
@@ -88,7 +90,8 @@ tf = count_tf(doc_info, freq_lis)
 idf = count_idf(doc_info, freq_lis)
 tf_idf = compute_tf_idf(tf, idf)
 
-print(tf_idf)
-
-
+vec = TfidfVectorizer()
+X = vec.fit_transform(text_data)
+S = cosine_similarity(X)
+print(max(S[0]))
 
