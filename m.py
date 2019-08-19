@@ -91,9 +91,13 @@ idf = count_idf(doc_info, freq_lis)
 tf_idf = compute_tf_idf(tf, idf)
 '''
 
-vec = TfidfVectorizer()
+vec = TfidfVectorizer(sublinear_tf=True, stop_words='english')
 X = vec.fit_transform(text_data)
+feature_names = vec.get_feature_names()
+dense = X.todense()
+denselist = dense.tolist()
+df = pd.DataFrame(denselist, columns=feature_names)
+
 S = cosine_similarity(X)
-print(S[0])
 
 
