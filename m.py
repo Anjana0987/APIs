@@ -1,4 +1,4 @@
-import pandas as pd
+'''import pandas as pd
 import re
 from gensim import corpora, models
 import numpy as np
@@ -99,5 +99,14 @@ denselist = dense.tolist()
 df = pd.DataFrame(denselist, columns=feature_names)
 
 S = cosine_similarity(X)
+'''
+import re
 
+def func(d, event):
+    res = []
+    for key in d.keys():
+        if re.match(key, event):
+            res.append(d[key])
+    return res
 
+print(func(['foo', 'bar', 'baz'], 'f*o'))
