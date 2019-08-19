@@ -11,7 +11,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 data = pd.read_csv('try.csv')
 text_data = data['text']
 
-'''def count_words(sent):
+def count_words(sent):
     count = 0
     words = word_tokenize(sent)
     for word in words:
@@ -89,7 +89,7 @@ freq_lis = frequency(text_sents)
 tf = count_tf(doc_info, freq_lis)
 idf = count_idf(doc_info, freq_lis)
 tf_idf = compute_tf_idf(tf, idf)
-'''
+
 
 vec = TfidfVectorizer(sublinear_tf=True, stop_words='english')
 X = vec.fit_transform(text_data)
