@@ -16,3 +16,7 @@ S = cosine_similarity(X)
 
 print(df)'''
 
+import fiona
+with fiona.open('shpfiles/MyShapefile.shp') as shp:
+     # schema of the shapefile
+     print(shp.schema)
